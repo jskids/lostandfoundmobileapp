@@ -49,7 +49,7 @@ fun LoadingScreen(
             verticalArrangement = Arrangement.Center
         ) {
             LoadingIndicator()
-            if (!message.isNull_or_empty()) {
+            if (!message.isNullOrEmpty()) {
                 Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
                 Text(
                     text = message,
@@ -60,8 +60,6 @@ fun LoadingScreen(
         }
     }
 }
-
-private fun String.isNull_or_empty(): Boolean = this.isEmpty()
 
 @Composable
 fun LoadingOverlay(
