@@ -50,8 +50,8 @@ A task is too big if you can't describe it in one line.
 * [X] 1.4 Create base package/folder structure
 * [X] 1.5 Configure Gradle dependencies
 * [X] 1.6 Configure minimum/target Android SDK
-* [ ] 1.7 Configure Git repository and `.gitignore`
-* [ ] 1.8 Verify clean project build
+* [X] 1.7 Configure Git repository and `.gitignore`
+* [X] 1.8 Verify clean project build
 * [ ] 1.9 Configure Supabase project
 * [ ] 1.10 Connect Android app to Supabase
 
@@ -59,16 +59,16 @@ A task is too big if you can't describe it in one line.
 
 # 2. Design System
 
-* [ ] 2.1 Define app color palette
-* [ ] 2.2 Define typography
-* [ ] 2.3 Configure application font
-* [ ] 2.4 Configure Material 3 theme
-* [ ] 2.5 Define spacing and sizing constants
-* [ ] 2.6 Define reusable shape/radius tokens
-* [ ] 2.7 Define reusable UI components
-* [ ] 2.8 Create app icon
-* [ ] 2.9 Create reusable loading component
-* [ ] 2.10 Create reusable error component
+* [x] 2.1 Define app color palette
+* [X] 2.2 Define typography
+* [X] 2.3 Configure application font
+* [X] 2.4 Configure Material 3 theme
+* [X] 2.5 Define spacing and sizing constants
+* [X] 2.6 Define reusable shape/radius tokens
+* [X] 2.7 Define reusable UI components
+* [X] 2.8 Create app icon
+* [X] 2.9 Create reusable loading component
+* [X] 2.10 Create reusable error component
 * [ ] 2.11 Create reusable empty-state component
 
 ---
