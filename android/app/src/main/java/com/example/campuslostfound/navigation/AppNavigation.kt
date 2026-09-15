@@ -12,6 +12,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.campuslostfound.ui.home.HomeScreen
 
 /**
  * Centralized definition of all screens and routes in the application.
@@ -50,7 +51,7 @@ fun AppNavigation(
             PlaceholderScreen(name = "Register")
         }
         composable(Screen.Home.route) {
-            PlaceholderScreen(name = "Home")
+            HomeScreen(navController = navController)
         }
         composable(Screen.LostItems.route) {
             PlaceholderScreen(name = "Lost Items")
