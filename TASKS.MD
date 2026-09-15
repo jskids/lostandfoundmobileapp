@@ -59,7 +59,7 @@ A task is too big if you can't describe it in one line.
 
 # 2. Design System
 
-* [x] 2.1 Define app color palette
+* [X] 2.1 Define app color palette
 * [X] 2.2 Define typography
 * [X] 2.3 Configure application font
 * [X] 2.4 Configure Material 3 theme
@@ -76,13 +76,13 @@ A task is too big if you can't describe it in one line.
 # 3. Application Architecture
 
 * [ ] 3.1 Create MVVM package structure
-* [ ] 3.2 Create navigation package
-* [ ] 3.3 Create shared/common package
-* [ ] 3.4 Create data package
-* [ ] 3.5 Create domain package
-* [ ] 3.6 Create UI/feature packages
-* [ ] 3.7 Configure ViewModel architecture
-* [ ] 3.8 Configure StateFlow UI state pattern
+* [X] 3.2 Create navigation package
+* [X] 3.3 Create shared/common package
+* [X] 3.4 Create data package
+* [X] 3.5 Create domain package
+* [X] 3.6 Create UI/feature packages
+* [x] 3.7 Configure ViewModel architecture
+* [x] 3.8 Configure StateFlow UI state pattern
 * [ ] 3.9 Configure dependency injection
 * [ ] 3.10 Verify architecture with a sample screen
 
