@@ -69,7 +69,7 @@ A task is too big if you can't describe it in one line.
 * [X] 2.8 Create app icon
 * [X] 2.9 Create reusable loading component
 * [X] 2.10 Create reusable error component
-* [ ] 2.11 Create reusable empty-state component
+* [X] 2.11 Create reusable empty-state component
 
 ---
 
