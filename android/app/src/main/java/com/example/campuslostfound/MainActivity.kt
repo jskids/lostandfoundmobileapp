@@ -14,7 +14,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.campuslostfound.navigation.AppNavigation
 import com.example.campuslostfound.navigation.Screen
 import com.example.campuslostfound.ui.theme.CampusLostFoundTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

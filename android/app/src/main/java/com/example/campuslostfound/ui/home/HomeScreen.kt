@@ -21,11 +21,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.campuslostfound.common.state.UiState
+import com.example.campuslostfound.ui.components.ErrorScreen
+import com.example.campuslostfound.ui.components.LoadingScreen
 import com.example.campuslostfound.ui.theme.*
 
 /**
@@ -46,9 +51,16 @@ fun HomeScreen(
     onReportLost: () -> Unit,
     onReportFound: () -> Unit,
     modifier: Modifier = Modifier,
-    onNavigateToDetails: (String) -> Unit = {}
+    onNavigateToDetails: (String) -> Unit = {},
+    viewModel: HomeViewModel? = null
 ) {
     val context = LocalContext.current
+    val isPreview = LocalInspectionMode.current
+    val uiState = if (isPreview || viewModel == null) {
+        UiState.Success(mockFoundItems)
+    } else {
+        viewModel.uiState.collectAsState().value
+    }
 
     // Search and Filters States
     var searchQuery by remember { mutableStateOf("") }
@@ -218,15 +230,30 @@ fun HomeScreen(
         },
         modifier = modifier
     ) { innerPadding ->
-        // LazyColumn handles both filtering controls and the results cards efficiently without nested scrolling issues
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
-                .padding(innerPadding),
-            contentPadding = PaddingValues(MaterialTheme.spacing.medium),
-            verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium)
-        ) {
+        when (val state = uiState) {
+            is UiState.Loading -> {
+                LoadingScreen(
+                    modifier = Modifier.padding(innerPadding),
+                    message = "Loading campus items..."
+                )
+            }
+            is UiState.Error -> {
+                ErrorScreen(
+                    message = state.message,
+                    modifier = Modifier.padding(innerPadding),
+                    onRetry = { viewModel?.loadItems() }
+                )
+            }
+            is UiState.Success -> {
+                // LazyColumn handles both filtering controls and the results cards efficiently without nested scrolling issues
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.background)
+                        .padding(innerPadding),
+                    contentPadding = PaddingValues(MaterialTheme.spacing.medium),
+                    verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium)
+                ) {
             // 2. Search Section
             item {
                 Row(
@@ -568,7 +595,7 @@ fun HomeScreen(
 
             // 7. Found Item Cards
             // Filter list in UI mock state
-            val filteredItems = mockFoundItems.filter { item ->
+            val filteredItems = state.data.filter { item ->
                 // Category Filter
                 val matchesCategory = selectedCategory == "All" || item.category == selectedCategory
                 // Status Filter
@@ -611,6 +638,8 @@ fun HomeScreen(
             }
         }
     }
+}
+}
 
     // Modern Choice Dialog when Clicking bottom 'Report' tab
     if (showReportDialog) {

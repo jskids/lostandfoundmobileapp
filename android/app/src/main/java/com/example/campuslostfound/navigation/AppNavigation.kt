@@ -7,12 +7,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.campuslostfound.ui.home.HomeScreen
+import com.example.campuslostfound.ui.home.HomeViewModel
 
 /**
  * Centralized definition of all screens and routes in the application.
@@ -51,7 +53,9 @@ fun AppNavigation(
             PlaceholderScreen(name = "Register")
         }
         composable(Screen.Home.route) {
+            val viewModel: HomeViewModel = hiltViewModel()
             HomeScreen(
+                viewModel = viewModel,
                 onNavigateToProfile = {
                     navController.navigate(Screen.Profile.route) {
                         launchSingleTop = true
