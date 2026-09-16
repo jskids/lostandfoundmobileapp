@@ -144,7 +144,7 @@ A task is too big if you can't describe it in one line.
 
 # 7. Home / Discover
 
-* [ ] 7.1 Create home screen
+* [x] 7.1 Create home screen
 * [ ] 7.2 Create recent items section
 * [ ] 7.3 Create lost items section
 * [ ] 7.4 Create found items section
