@@ -11,7 +11,7 @@
 > **Backend:** Supabase
 >
 > **Database:** PostgreSQL via Supabase
->
+> 
 > **Authentication:** Supabase Auth
 >
 > **Storage:** Supabase Storage
@@ -75,7 +75,7 @@ A task is too big if you can't describe it in one line.
 
 # 3. Application Architecture
 
-* [ ] 3.1 Create MVVM package structure
+* [x] 3.1 Create MVVM package structure
 * [X] 3.2 Create navigation package
 * [X] 3.3 Create shared/common package
 * [X] 3.4 Create data package
@@ -83,8 +83,8 @@ A task is too big if you can't describe it in one line.
 * [X] 3.6 Create UI/feature packages
 * [x] 3.7 Configure ViewModel architecture
 * [x] 3.8 Configure StateFlow UI state pattern
-* [ ] 3.9 Configure dependency injection
-* [ ] 3.10 Verify architecture with a sample screen
+* [x] 3.9 Configure dependency injection
+* [x] 3.10 Verify architecture with a sample screen
 
 ---
 
@@ -232,7 +232,7 @@ A task is too big if you can't describe it in one line.
 
 # 11. Item Categories
 
-* [ ] 11.1 Create category constants
+* [x] 11.1 Create category constants
 * [ ] 11.2 Add Shoes category
 * [ ] 11.3 Add Blazer category
 * [ ] 11.4 Add Phone category
