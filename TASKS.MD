@@ -52,8 +52,8 @@ A task is too big if you can't describe it in one line.
 * [X] 1.6 Configure minimum/target Android SDK
 * [X] 1.7 Configure Git repository and `.gitignore`
 * [X] 1.8 Verify clean project build
-* [ ] 1.9 Configure Supabase project
-* [ ] 1.10 Connect Android app to Supabase
+* [x] 1.9 Configure Supabase project
+* [x] 1.10 Connect Android app to Supabase
 
 ---
 
@@ -90,20 +90,20 @@ A task is too big if you can't describe it in one line.
 
 # 4. Database Design
 
-* [ ] 4.1 Define users/profile model
-* [ ] 4.2 Define lost/found item model
-* [ ] 4.3 Define item category model
-* [ ] 4.4 Define campus location model
-* [ ] 4.5 Define report/claim model
-* [ ] 4.6 Define notification model
-* [ ] 4.7 Define item status model
-* [ ] 4.8 Define submitted-to-DO field
-* [ ] 4.9 Create database tables
-* [ ] 4.10 Create database relationships
-* [ ] 4.11 Create database indexes
-* [ ] 4.12 Create database constraints
-* [ ] 4.13 Create database migration scripts
-* [ ] 4.14 Verify database schema
+* [x] 4.1 Define users/profile model
+* [x] 4.2 Define lost/found item model
+* [x] 4.3 Define item category model
+* [x] 4.4 Define campus location model
+* [x] 4.5 Define report/claim model
+* [x] 4.6 Define notification model
+* [x] 4.7 Define item status model
+* [x] 4.8 Define submitted-to-DO field
+* [x] 4.9 Create database tables
+* [x] 4.10 Create database relationships
+* [x] 4.11 Create database indexes
+* [x] 4.12 Create database constraints
+* [x] 4.13 Create database migration scripts
+* [x] 4.14 Verify database schema
 
 ---
 

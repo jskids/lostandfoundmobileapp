@@ -1,0 +1,41 @@
+{
+  "project_name": "Campus Lost & Found",
+  "version": "1.0.0",
+  "database": {
+    "engine": "PostgreSQL",
+    "timezone": "UTC",
+    "extensions": [
+      "uuid-ossp",
+      "pgcrypto"
+    ]
+  },
+  "auth": {
+    "providers": {
+      "email": {
+        "enabled": true,
+        "double_confirm_changes": true,
+        "enable_confirmations": true
+      }
+    }
+  },
+  "storage": {
+    "buckets": [
+      {
+        "name": "item-images",
+        "public": true,
+        "file_size_limit": "5MB",
+        "allowed_mime_types": [
+          "image/jpeg",
+          "image/png",
+          "image/webp"
+        ]
+      }
+    ]
+  },
+  "realtime": {
+    "enabled": true,
+    "publications": [
+      "supabase_realtime"
+    ]
+  }
+}

@@ -9,6 +9,9 @@ build/
 
 # Local configuration
 local.properties
+.env
+*.env
+secrets.properties
 
 # Generated files
 *.log
