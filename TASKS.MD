@@ -233,32 +233,32 @@ A task is too big if you can't describe it in one line.
 # 11. Item Categories
 
 * [x] 11.1 Create category constants
-* [ ] 11.2 Add Shoes category
-* [ ] 11.3 Add Blazer category
-* [ ] 11.4 Add Phone category
-* [ ] 11.5 Add Wallet category
-* [ ] 11.6 Add School ID category
-* [ ] 11.7 Add Jacket category
-* [ ] 11.8 Add Uniform category
-* [ ] 11.9 Add Tumbler category
-* [ ] 11.10 Add Mini Fan category
-* [ ] 11.11 Add Umbrella category
-* [ ] 11.12 Add Others category
-* [ ] 11.13 Create category icons
-* [ ] 11.14 Verify category selection
+* [x] 11.2 Add Shoes category
+* [x] 11.3 Add Blazer category
+* [x] 11.4 Add Phone category
+* [X] 11.5 Add Wallet category
+* [x] 11.6 Add School ID category
+* [x] 11.7 Add Jacket category
+* [x] 11.8 Add Uniform category
+* [x] 11.9 Add Tumbler category
+* [x] 11.10 Add Mini Fan category
+* [x] 11.11 Add Umbrella category
+* [x] 11.12 Add Others category
+* [x] 11.13 Create category icons
+* [x] 11.14 Verify category selection
 
 ---
 
 # 12. Campus Location
 
-* [ ] 12.1 Create building data
-* [ ] 12.2 Create floor data
-* [ ] 12.3 Create room data
-* [ ] 12.4 Create building selector
-* [ ] 12.5 Create floor selector
-* [ ] 12.6 Create room selector/input
-* [ ] 12.7 Display formatted location
-* [ ] 12.8 Validate location fields
+* [x] 12.1 Create building data
+* [x] 12.2 Create floor data
+* [x] 12.3 Create room data
+* [x] 12.4 Create building selector
+* [x] 12.5 Create floor selector
+* [x] 12.6 Create room selector/input
+* [x] 12.7 Display formatted location
+* [x] 12.8 Validate location fields
 * [ ] 12.9 Verify location filtering
 
 ---

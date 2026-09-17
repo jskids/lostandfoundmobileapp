@@ -1,3 +1,49 @@
 <resources>
     <string name="app_name">Campus Lost &amp; Found</string>
+    <string name="category_shoes">Shoes</string>
+    <string name="category_blazer">Blazer</string>
+    <string name="category_phone">Phone</string>
+    <string name="category_wallet">Wallet</string>
+    <string name="category_school_id">School ID</string>
+    <string name="category_jacket">Jacket</string>
+    <string name="category_uniform">Uniform</string>
+    <string name="category_tumbler">Tumbler</string>
+    <string name="category_mini_fan">Mini Fan</string>
+    <string name="category_umbrella">Umbrella</string>
+    <string name="category_others">Others</string>
+
+    <!-- Buildings -->
+    <string name="building_main_academic">Main Academic Building</string>
+    <string name="building_science_complex">Science Complex</string>
+    <string name="building_central_library">Central Library</string>
+    <string name="building_student_center">Student Center</string>
+    <string name="building_engineering_hall">Engineering Hall</string>
+    <string name="building_gymnasium">Gymnasium &amp; Sports Center</string>
+    <string name="building_administration">Administration Building</string>
+    <string name="building_cafeteria">Campus Cafeteria</string>
+
+    <!-- Floors -->
+    <string name="floor_basement">Basement</string>
+    <string name="floor_1">1st Floor</string>
+    <string name="floor_2">2nd Floor</string>
+    <string name="floor_3">3rd Floor</string>
+    <string name="floor_4">4th Floor</string>
+    <string name="floor_5">5th Floor</string>
+    <string name="floor_roof_deck">Roof Deck</string>
+
+    <!-- Location Selectors -->
+    <string name="location_label">Location</string>
+    <string name="unspecified_location">Unspecified Location</string>
+    <string name="select_building">Select Building</string>
+    <string name="building_label">Building</string>
+    <string name="select_floor">Select Floor</string>
+    <string name="floor_label">Floor</string>
+    <string name="room_label">Room / Specific Location</string>
+    <string name="room_placeholder">e.g., Room 101, Main Lobby, Study Area</string>
+
+    <!-- Location Validation Errors -->
+    <string name="error_building_required">Please select a building location</string>
+    <string name="error_floor_required">Please select a floor level</string>
+    <string name="error_room_required">Please enter or select a room location</string>
+    <string name="error_room_too_long">Room location description cannot exceed 50 characters</string>
 </resources>

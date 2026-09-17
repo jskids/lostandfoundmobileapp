@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.campuslostfound.common.state.UiState
 import com.example.campuslostfound.ui.components.ErrorScreen
+import com.example.campuslostfound.ui.components.FormattedLocationText
 import com.example.campuslostfound.ui.components.LoadingScreen
 import com.example.campuslostfound.ui.theme.*
 
@@ -98,7 +99,7 @@ fun HomeScreen(
                                 modifier = Modifier.size(18.dp)
                             )
                         }
-                        
+
                         Column {
                             Text(
                                 text = "Campus Lost & Found",
@@ -254,398 +255,398 @@ fun HomeScreen(
                     contentPadding = PaddingValues(MaterialTheme.spacing.medium),
                     verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium)
                 ) {
-            // 2. Search Section
-            item {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    OutlinedTextField(
-                        value = searchQuery,
-                        onValueChange = { searchQuery = it },
-                        modifier = Modifier.weight(1f),
-                        placeholder = {
-                            Text(
-                                text = "Search items, locations, IDs...",
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
-                            )
-                        },
-                        leadingIcon = {
-                            Icon(
-                                imageVector = Icons.Default.Search,
-                                contentDescription = "Search",
-                                tint = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        },
-                        singleLine = true,
-                        shape = RoundedCornerShape(Radius.Medium),
-                        colors = OutlinedTextFieldDefaults.colors(
-                            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.1f),
-                            focusedContainerColor = MaterialTheme.colorScheme.surface,
-                            unfocusedBorderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f),
-                            focusedBorderColor = MaterialTheme.colorScheme.primary
-                        )
-                    )
-
-                    // Filter Sliders button in a blue rounded box on the right (reusing Settings icon as a reliable core icon)
-                    Box(
-                        modifier = Modifier
-                            .size(48.dp)
-                            .background(MaterialTheme.colorScheme.primaryContainer, RoundedCornerShape(Radius.Medium))
-                            .clickable {
-                                Toast.makeText(context, "Filters Settings Clicked", Toast.LENGTH_SHORT).show()
-                            },
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Settings,
-                            contentDescription = "Filters",
-                            tint = MaterialTheme.colorScheme.primary
-                        )
-                    }
-                }
-            }
-
-            // 3. Category Filters (Horizontally Scrollable)
-            item {
-                val categories = listOf("All", "Blazer", "Tumbler", "School ID", "Mini Fan")
-                LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    items(categories) { category ->
-                        val isSelected = category == selectedCategory
-                        Box(
-                            modifier = Modifier
-                                .background(
-                                    color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f),
-                                    shape = RoundedCornerShape(Radius.Large)
-                                )
-                                .clickable { selectedCategory = category }
-                                .padding(horizontal = 16.dp, vertical = 8.dp)
-                        ) {
-                            Text(
-                                text = category,
-                                color = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onPrimaryContainer,
-                                style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Medium)
-                            )
-                        }
-                    }
-                }
-            }
-
-            // 4. Location Filters
-            item {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    // Building Column
-                    Column(modifier = Modifier.weight(1.3f)) {
-                        Text(
-                            text = "Building",
-                            style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f),
-                            modifier = Modifier.padding(bottom = 4.dp)
-                        )
-                        var buildingExpanded by remember { mutableStateOf(false) }
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(44.dp)
-                                .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.2f), RoundedCornerShape(Radius.Small))
-                                .border(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f), RoundedCornerShape(Radius.Small))
-                                .clickable { buildingExpanded = true }
-                                .padding(horizontal = 8.dp),
-                            contentAlignment = Alignment.CenterStart
-                        ) {
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Text(
-                                    text = selectedBuilding,
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                                Icon(
-                                    imageVector = Icons.Default.ArrowDropDown,
-                                    contentDescription = "Dropdown",
-                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                            DropdownMenu(
-                                expanded = buildingExpanded,
-                                onDismissRequest = { buildingExpanded = false }
-                            ) {
-                                listOf("All Buildings", "Main Academic Bldg", "Science Complex", "Central Library").forEach { b ->
-                                    DropdownMenuItem(
-                                        text = { Text(b) },
-                                        onClick = {
-                                            selectedBuilding = b
-                                            buildingExpanded = false
-                                        }
-                                    )
-                                }
-                            }
-                        }
-                    }
-
-                    // Floor Column
-                    Column(modifier = Modifier.weight(1.1f)) {
-                        Text(
-                            text = "Floor",
-                            style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f),
-                            modifier = Modifier.padding(bottom = 4.dp)
-                        )
-                        var floorExpanded by remember { mutableStateOf(false) }
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(44.dp)
-                                .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.2f), RoundedCornerShape(Radius.Small))
-                                .border(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f), RoundedCornerShape(Radius.Small))
-                                .clickable { floorExpanded = true }
-                                .padding(horizontal = 8.dp),
-                            contentAlignment = Alignment.CenterStart
-                        ) {
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Text(
-                                    text = selectedFloor,
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                                Icon(
-                                    imageVector = Icons.Default.ArrowDropDown,
-                                    contentDescription = "Dropdown",
-                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                            DropdownMenu(
-                                expanded = floorExpanded,
-                                onDismissRequest = { floorExpanded = false }
-                            ) {
-                                listOf("All Floors", "Floor 1", "Floor 2", "Floor 3", "Floor 4").forEach { f ->
-                                    DropdownMenuItem(
-                                        text = { Text(f) },
-                                        onClick = {
-                                            selectedFloor = f
-                                            floorExpanded = false
-                                        }
-                                    )
-                                }
-                            }
-                        }
-                    }
-
-                    // Room Column
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            text = "Room",
-                            style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f),
-                            modifier = Modifier.padding(bottom = 4.dp)
-                        )
-                        OutlinedTextField(
-                            value = roomQuery,
-                            onValueChange = { roomQuery = it },
-                            placeholder = { Text("e.g. 304", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)) },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(44.dp),
-                            singleLine = true,
-                            textStyle = MaterialTheme.typography.bodyMedium,
-                            shape = RoundedCornerShape(Radius.Small),
-                            colors = OutlinedTextFieldDefaults.colors(
-                                unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.2f),
-                                focusedContainerColor = MaterialTheme.colorScheme.surface,
-                                unfocusedBorderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f),
-                                focusedBorderColor = MaterialTheme.colorScheme.primary
-                            )
-                        )
-                    }
-                }
-            }
-
-            // 5. Status Filters
-            item {
-                val statuses = listOf("All Status", "Unsettled", "Pending", "Claimed")
-                LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    items(statuses) { status ->
-                        val isSelected = status == selectedStatus
-                        val dotColor = when (status) {
-                            "Unsettled" -> Color(0xFFEF4444)
-                            "Pending" -> Color(0xFFF59E0B)
-                            "Claimed" -> Color(0xFF3B82F6)
-                            else -> null
-                        }
-                        val bgSelectedColor = if (isSelected) {
-                            MaterialTheme.colorScheme.primary
-                        } else {
-                            when (status) {
-                                "Unsettled" -> Color(0xFFFEE2E2)
-                                "Pending" -> Color(0xFFFEF3C7)
-                                "Claimed" -> Color(0xFFDBEAFE)
-                                else -> MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f)
-                            }
-                        }
-                        val textSelectedColor = if (isSelected) {
-                            Color.White
-                        } else {
-                            when (status) {
-                                "Unsettled" -> Color(0xFFB91C1C)
-                                "Pending" -> Color(0xFFB45309)
-                                "Claimed" -> Color(0xFF1D4ED8)
-                                else -> MaterialTheme.colorScheme.onPrimaryContainer
-                            }
-                        }
-
+                    // 2. Search Section
+                    item {
                         Row(
-                            modifier = Modifier
-                                .background(color = bgSelectedColor, shape = RoundedCornerShape(Radius.Large))
-                                .clickable { selectedStatus = status }
-                                .padding(horizontal = 12.dp, vertical = 6.dp),
+                            modifier = Modifier.fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(6.dp)
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            if (dotColor != null) {
+                            OutlinedTextField(
+                                value = searchQuery,
+                                onValueChange = { searchQuery = it },
+                                modifier = Modifier.weight(1f),
+                                placeholder = {
+                                    Text(
+                                        text = "Search items, locations, IDs...",
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
+                                    )
+                                },
+                                leadingIcon = {
+                                    Icon(
+                                        imageVector = Icons.Default.Search,
+                                        contentDescription = "Search",
+                                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                },
+                                singleLine = true,
+                                shape = RoundedCornerShape(Radius.Medium),
+                                colors = OutlinedTextFieldDefaults.colors(
+                                    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.1f),
+                                    focusedContainerColor = MaterialTheme.colorScheme.surface,
+                                    unfocusedBorderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f),
+                                    focusedBorderColor = MaterialTheme.colorScheme.primary
+                                )
+                            )
+
+                            // Filter Sliders button in a blue rounded box on the right (reusing Settings icon as a reliable core icon)
+                            Box(
+                                modifier = Modifier
+                                    .size(48.dp)
+                                    .background(MaterialTheme.colorScheme.primaryContainer, RoundedCornerShape(Radius.Medium))
+                                    .clickable {
+                                        Toast.makeText(context, "Filters Settings Clicked", Toast.LENGTH_SHORT).show()
+                                    },
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Settings,
+                                    contentDescription = "Filters",
+                                    tint = MaterialTheme.colorScheme.primary
+                                )
+                            }
+                        }
+                    }
+
+                    // 3. Category Filters (Horizontally Scrollable)
+                    item {
+                        val categories = listOf("All", "Shoes", "Blazer", "Phone", "Wallet", "School ID", "Jacket", "Uniform", "Tumbler", "Mini Fan", "Umbrella", "Others")
+                        LazyRow(
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            items(categories) { category ->
+                                val isSelected = category == selectedCategory
                                 Box(
                                     modifier = Modifier
-                                        .size(8.dp)
-                                        .background(dotColor, CircleShape)
+                                        .background(
+                                            color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f),
+                                            shape = RoundedCornerShape(Radius.Large)
+                                        )
+                                        .clickable { selectedCategory = category }
+                                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                                ) {
+                                    Text(
+                                        text = category,
+                                        color = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onPrimaryContainer,
+                                        style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Medium)
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+                    // 4. Location Filters
+                    item {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            // Building Column
+                            Column(modifier = Modifier.weight(1.3f)) {
+                                Text(
+                                    text = "Building",
+                                    style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
+                                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f),
+                                    modifier = Modifier.padding(bottom = 4.dp)
+                                )
+                                var buildingExpanded by remember { mutableStateOf(false) }
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(44.dp)
+                                        .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.2f), RoundedCornerShape(Radius.Small))
+                                        .border(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f), RoundedCornerShape(Radius.Small))
+                                        .clickable { buildingExpanded = true }
+                                        .padding(horizontal = 8.dp),
+                                    contentAlignment = Alignment.CenterStart
+                                ) {
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Text(
+                                            text = selectedBuilding,
+                                            style = MaterialTheme.typography.bodyMedium,
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis
+                                        )
+                                        Icon(
+                                            imageVector = Icons.Default.ArrowDropDown,
+                                            contentDescription = "Dropdown",
+                                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                        )
+                                    }
+                                    DropdownMenu(
+                                        expanded = buildingExpanded,
+                                        onDismissRequest = { buildingExpanded = false }
+                                    ) {
+                                        listOf("All Buildings", "Main Academic Bldg", "Science Complex", "Central Library").forEach { b ->
+                                            DropdownMenuItem(
+                                                text = { Text(b) },
+                                                onClick = {
+                                                    selectedBuilding = b
+                                                    buildingExpanded = false
+                                                }
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+
+                            // Floor Column
+                            Column(modifier = Modifier.weight(1.1f)) {
+                                Text(
+                                    text = "Floor",
+                                    style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
+                                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f),
+                                    modifier = Modifier.padding(bottom = 4.dp)
+                                )
+                                var floorExpanded by remember { mutableStateOf(false) }
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(44.dp)
+                                        .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.2f), RoundedCornerShape(Radius.Small))
+                                        .border(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f), RoundedCornerShape(Radius.Small))
+                                        .clickable { floorExpanded = true }
+                                        .padding(horizontal = 8.dp),
+                                    contentAlignment = Alignment.CenterStart
+                                ) {
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Text(
+                                            text = selectedFloor,
+                                            style = MaterialTheme.typography.bodyMedium,
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis
+                                        )
+                                        Icon(
+                                            imageVector = Icons.Default.ArrowDropDown,
+                                            contentDescription = "Dropdown",
+                                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                        )
+                                    }
+                                    DropdownMenu(
+                                        expanded = floorExpanded,
+                                        onDismissRequest = { floorExpanded = false }
+                                    ) {
+                                        listOf("All Floors", "Floor 1", "Floor 2", "Floor 3", "Floor 4").forEach { f ->
+                                            DropdownMenuItem(
+                                                text = { Text(f) },
+                                                onClick = {
+                                                    selectedFloor = f
+                                                    floorExpanded = false
+                                                }
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+
+                            // Room Column
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(
+                                    text = "Room",
+                                    style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
+                                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f),
+                                    modifier = Modifier.padding(bottom = 4.dp)
+                                )
+                                OutlinedTextField(
+                                    value = roomQuery,
+                                    onValueChange = { roomQuery = it },
+                                    placeholder = { Text("e.g. 304", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)) },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(44.dp),
+                                    singleLine = true,
+                                    textStyle = MaterialTheme.typography.bodyMedium,
+                                    shape = RoundedCornerShape(Radius.Small),
+                                    colors = OutlinedTextFieldDefaults.colors(
+                                        unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.2f),
+                                        focusedContainerColor = MaterialTheme.colorScheme.surface,
+                                        unfocusedBorderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f),
+                                        focusedBorderColor = MaterialTheme.colorScheme.primary
+                                    )
                                 )
                             }
+                        }
+                    }
+
+                    // 5. Status Filters
+                    item {
+                        val statuses = listOf("All Status", "Unsettled", "Pending", "Claimed")
+                        LazyRow(
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            items(statuses) { status ->
+                                val isSelected = status == selectedStatus
+                                val dotColor = when (status) {
+                                    "Unsettled" -> Color(0xFFEF4444)
+                                    "Pending" -> Color(0xFFF59E0B)
+                                    "Claimed" -> Color(0xFF3B82F6)
+                                    else -> null
+                                }
+                                val bgSelectedColor = if (isSelected) {
+                                    MaterialTheme.colorScheme.primary
+                                } else {
+                                    when (status) {
+                                        "Unsettled" -> Color(0xFFFEE2E2)
+                                        "Pending" -> Color(0xFFFEF3C7)
+                                        "Claimed" -> Color(0xFFDBEAFE)
+                                        else -> MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f)
+                                    }
+                                }
+                                val textSelectedColor = if (isSelected) {
+                                    Color.White
+                                } else {
+                                    when (status) {
+                                        "Unsettled" -> Color(0xFFB91C1C)
+                                        "Pending" -> Color(0xFFB45309)
+                                        "Claimed" -> Color(0xFF1D4ED8)
+                                        else -> MaterialTheme.colorScheme.onPrimaryContainer
+                                    }
+                                }
+
+                                Row(
+                                    modifier = Modifier
+                                        .background(color = bgSelectedColor, shape = RoundedCornerShape(Radius.Large))
+                                        .clickable { selectedStatus = status }
+                                        .padding(horizontal = 12.dp, vertical = 6.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                ) {
+                                    if (dotColor != null) {
+                                        Box(
+                                            modifier = Modifier
+                                                .size(8.dp)
+                                                .background(dotColor, CircleShape)
+                                        )
+                                    }
+                                    Text(
+                                        text = status,
+                                        color = textSelectedColor,
+                                        style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Medium)
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+                    // 6. Content Header
+                    item {
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
                             Text(
-                                text = status,
-                                color = textSelectedColor,
-                                style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Medium)
+                                text = "Found On Campus",
+                                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                                color = MaterialTheme.colorScheme.onBackground
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+
+                            // Items Count Badge
+                            Box(
+                                modifier = Modifier
+                                    .background(MaterialTheme.colorScheme.primaryContainer, RoundedCornerShape(Radius.Small))
+                                    .padding(horizontal = 8.dp, vertical = 2.dp)
+                            ) {
+                                Text(
+                                    text = "4 items",
+                                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold)
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.weight(1f))
+
+                            // DO VERIFIED CUSTODY Badge with CheckCircle shield icon (core icon replacement)
+                            Row(
+                                modifier = Modifier
+                                    .background(MaterialTheme.colorScheme.tertiaryContainer, RoundedCornerShape(Radius.Small))
+                                    .padding(horizontal = 8.dp, vertical = 4.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.CheckCircle,
+                                    contentDescription = "Verified Icon",
+                                    tint = MaterialTheme.colorScheme.onTertiaryContainer,
+                                    modifier = Modifier.size(14.dp)
+                                )
+                                Text(
+                                    text = "DO VERIFIED CUSTODY",
+                                    color = MaterialTheme.colorScheme.onTertiaryContainer,
+                                    style = MaterialTheme.typography.labelSmall.copy(
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 9.sp
+                                    )
+                                )
+                            }
+                        }
+                    }
+
+                    // 7. Found Item Cards
+                    // Filter list in UI mock state
+                    val filteredItems = state.data.filter { item ->
+                        // Category Filter
+                        val matchesCategory = selectedCategory == "All" || item.category == selectedCategory
+                        // Status Filter
+                        val matchesStatus = selectedStatus == "All Status" || item.status.name.equals(selectedStatus, ignoreCase = true)
+                        // Search Query
+                        val matchesSearch = searchQuery.isEmpty() ||
+                                item.title.contains(searchQuery, ignoreCase = true) ||
+                                item.location.contains(searchQuery, ignoreCase = true)
+
+                        matchesCategory && matchesStatus && matchesSearch
+                    }
+
+                    if (filteredItems.isEmpty()) {
+                        item {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 32.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = "No items match your filters.",
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                    } else {
+                        items(filteredItems) { item ->
+                            FoundItemCard(
+                                item = item,
+                                onClaimClick = { itemId ->
+                                    Toast.makeText(context, "Claiming Item $itemId (UI Only)", Toast.LENGTH_SHORT).show()
+                                },
+                                onDetailsClick = { itemId ->
+                                    onNavigateToDetails(itemId)
+                                }
                             )
                         }
                     }
-                }
-            }
-
-            // 6. Content Header
-            item {
-                Spacer(modifier = Modifier.height(4.dp))
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "Found On Campus",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-
-                    // Items Count Badge
-                    Box(
-                        modifier = Modifier
-                            .background(MaterialTheme.colorScheme.primaryContainer, RoundedCornerShape(Radius.Small))
-                            .padding(horizontal = 8.dp, vertical = 2.dp)
-                    ) {
-                        Text(
-                            text = "4 items",
-                            color = MaterialTheme.colorScheme.onPrimaryContainer,
-                            style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold)
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.weight(1f))
-
-                    // DO VERIFIED CUSTODY Badge with CheckCircle shield icon (core icon replacement)
-                    Row(
-                        modifier = Modifier
-                            .background(MaterialTheme.colorScheme.tertiaryContainer, RoundedCornerShape(Radius.Small))
-                            .padding(horizontal = 8.dp, vertical = 4.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.CheckCircle,
-                            contentDescription = "Verified Icon",
-                            tint = MaterialTheme.colorScheme.onTertiaryContainer,
-                            modifier = Modifier.size(14.dp)
-                        )
-                        Text(
-                            text = "DO VERIFIED CUSTODY",
-                            color = MaterialTheme.colorScheme.onTertiaryContainer,
-                            style = MaterialTheme.typography.labelSmall.copy(
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 9.sp
-                            )
-                        )
-                    }
-                }
-            }
-
-            // 7. Found Item Cards
-            // Filter list in UI mock state
-            val filteredItems = state.data.filter { item ->
-                // Category Filter
-                val matchesCategory = selectedCategory == "All" || item.category == selectedCategory
-                // Status Filter
-                val matchesStatus = selectedStatus == "All Status" || item.status.name.equals(selectedStatus, ignoreCase = true)
-                // Search Query
-                val matchesSearch = searchQuery.isEmpty() ||
-                        item.title.contains(searchQuery, ignoreCase = true) ||
-                        item.location.contains(searchQuery, ignoreCase = true)
-
-                matchesCategory && matchesStatus && matchesSearch
-            }
-
-            if (filteredItems.isEmpty()) {
-                item {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 32.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "No items match your filters.",
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
-            } else {
-                items(filteredItems) { item ->
-                    FoundItemCard(
-                        item = item,
-                        onClaimClick = { itemId ->
-                            Toast.makeText(context, "Claiming Item $itemId (UI Only)", Toast.LENGTH_SHORT).show()
-                        },
-                        onDetailsClick = { itemId ->
-                            onNavigateToDetails(itemId)
-                        }
-                    )
                 }
             }
         }
     }
-}
-}
 
     // Modern Choice Dialog when Clicking bottom 'Report' tab
     if (showReportDialog) {
         AlertDialog(
-            onDismissRequest = { 
-                showReportDialog = false 
+            onDismissRequest = {
+                showReportDialog = false
                 selectedTab = "Browse" // Reset tab back to active Browse
             },
             title = {
@@ -689,8 +690,8 @@ fun HomeScreen(
                         Text("Report Found Item")
                     }
                     TextButton(
-                        onClick = { 
-                            showReportDialog = false 
+                        onClick = {
+                            showReportDialog = false
                             selectedTab = "Browse"
                         },
                         modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -715,7 +716,10 @@ fun FoundItemCard(
 ) {
     // Generate beautiful custom category colors & safe material icons since no local assets are configured
     val (gradientColors, itemIcon) = when (item.category) {
+        "Shoes" -> Pair(listOf(Color(0xFF84CC16), Color(0xFF3F6212)), Icons.Default.Info)
         "Blazer" -> Pair(listOf(Color(0xFF1E40AF), Color(0xFF1E3A8A)), Icons.Default.Home)
+        "Phone" -> Pair(listOf(Color(0xFF06B6D4), Color(0xFF155E75)), Icons.Default.Phone)
+        "Wallet" -> Pair(listOf(Color(0xFF8B5CF6), Color(0xFF5B21B6)), Icons.Default.Lock)
         "Tumbler" -> Pair(listOf(Color(0xFF059669), Color(0xFF065F46)), Icons.Default.Favorite)
         "School ID" -> Pair(listOf(Color(0xFFD97706), Color(0xFF78350F)), Icons.Default.AccountBox)
         "Mini Fan" -> Pair(listOf(Color(0xFFEA580C), Color(0xFF7C2D12)), Icons.Default.Refresh)
@@ -850,22 +854,12 @@ fun FoundItemCard(
                 }
 
                 // Location Metadata
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(6.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.LocationOn,
-                        contentDescription = "Location Pin",
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
-                        modifier = Modifier.size(16.dp)
-                    )
-                    Text(
-                        text = item.location,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
+                FormattedLocationText(
+                    locationText = item.location,
+                    iconTint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+                    textStyle = MaterialTheme.typography.bodySmall,
+                    textColor = MaterialTheme.colorScheme.onSurfaceVariant
+                )
 
                 // Time Metadata (using Info icon as standard core replacement)
                 Row(
@@ -1052,6 +1046,18 @@ val mockFoundItems = listOf(
         timePosted = "Oct 23, 2024, 5:10 PM",
         posterInfo = "Posted Anonymously",
         isAnonymous = true,
+        actionType = ActionButtonType.CLAIM
+    ),
+    MockFoundItem(
+        id = "5",
+        title = "Brown Leather Bi-Fold Wallet",
+        category = "Wallet",
+        status = FoundItemStatus.UNSETTLED,
+        custodyLabel = "Turned in to Student Affairs Office",
+        location = "Floor 2 • Administration Bldg • RM 201",
+        timePosted = "Just now",
+        posterInfo = "john.doe@univ.edu",
+        isAnonymous = false,
         actionType = ActionButtonType.CLAIM
     )
 )
